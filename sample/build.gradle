@@ -3,18 +3,20 @@
 apply plugin: 'java'
 
 def mainClassName = 'com.google.archivepatcher.sample.SamplePatchGenerator'
+// def mainClassName = 'com.google.archivepatcher.sample.SamplePatchApplier'
 jar {
     manifest {
         attributes "Main-Class": mainClassName
     }
 
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
 dependencies {
     implementation project(':generator')
+    implementation project(':applier')
     implementation project(':shared')
 }
 // EOF

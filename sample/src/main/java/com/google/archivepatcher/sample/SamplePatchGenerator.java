@@ -34,9 +34,11 @@ public class SamplePatchGenerator {
     try (FileOutputStream patchOut = new FileOutputStream(args[2]);
         DeflaterOutputStream compressedPatchOut =
             new DeflaterOutputStream(patchOut, compressor, 32768)) {
+      System.out.println("Generating patch ... " + args[0]);
       new FileByFileV1DeltaGenerator().generateDelta(oldFile, newFile, compressedPatchOut);
       compressedPatchOut.finish();
       compressedPatchOut.flush();
+      System.out.println("Patch generated:" + args[2]);
     } finally {
       compressor.end();
     }
